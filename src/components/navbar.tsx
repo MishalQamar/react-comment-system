@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { LucideMenu, Menu, X } from 'lucide-react';
+import { LucideMenu, X } from 'lucide-react';
 import { SignOut } from '@/features/auth/actions/sign-out';
 import { articlePath, episodePath } from '@/paths';
 import { User } from '@prisma/client';

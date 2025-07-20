@@ -23,7 +23,7 @@ const signInSchema = z.object({
   password: z.string().min(6).max(191),
 });
 
-export const logIn = async (
+export const signIn = async (
   _actionState: ActionState,
   formData: FormData
 ) => {
