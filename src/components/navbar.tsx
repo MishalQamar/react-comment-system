@@ -2,10 +2,11 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Menu, X } from 'lucide-react';
+import { LucideMenu, Menu, X } from 'lucide-react';
 import { SignOut } from '@/features/auth/actions/sign-out';
 import { articlePath, episodePath } from '@/paths';
 import { User } from '@prisma/client';
+import { Button } from './ui/button';
 
 type NavbarProps = {
   user: User | null;
@@ -29,7 +30,11 @@ export default function Navbar({ user }: NavbarProps) {
           onClick={toggleMenu}
           className="md:hidden text-gray-800"
         >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
+          {isOpen ? (
+            <X size={24} />
+          ) : (
+            <LucideMenu className="cursor-pointer" size={24} />
+          )}
         </button>
 
         {/* Desktop links */}
@@ -42,24 +47,20 @@ export default function Navbar({ user }: NavbarProps) {
           </Link>
           {user ? (
             <form action={SignOut}>
-              <button className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
-                Sign Out
-              </button>
+              <Button>Sign Out</Button>
             </form>
           ) : (
             <>
-              <Link
-                href="/sign-in"
-                className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
-              >
-                Sign In
-              </Link>
-              <Link
-                href="/sign-up"
-                className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
-              >
-                Sign Up
-              </Link>
+              <Button asChild>
+                <Link href="/sign-in" onClick={toggleMenu}>
+                  Sign In
+                </Link>
+              </Button>
+              <Button asChild>
+                <Link href="/sign-up" onClick={toggleMenu}>
+                  Sign Up
+                </Link>
+              </Button>
             </>
           )}
         </div>
@@ -84,30 +85,26 @@ export default function Navbar({ user }: NavbarProps) {
           </Link>
           {user ? (
             <form action={SignOut}>
-              <button
+              <Button
                 type="submit"
                 onClick={toggleMenu}
                 className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
               >
                 Sign Out
-              </button>
+              </Button>
             </form>
           ) : (
             <>
-              <Link
-                href="/sign-in"
-                className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
-                onClick={toggleMenu}
-              >
-                Sign In
-              </Link>
-              <Link
-                href="/sign-up"
-                className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
-                onClick={toggleMenu}
-              >
-                Sign Up
-              </Link>
+              <Button asChild>
+                <Link href="/sign-in" onClick={toggleMenu}>
+                  Sign In
+                </Link>
+              </Button>
+              <Button asChild>
+                <Link href="/sign-up" onClick={toggleMenu}>
+                  Sign Up
+                </Link>
+              </Button>
             </>
           )}
         </div>
