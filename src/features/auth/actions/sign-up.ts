@@ -2,15 +2,14 @@
 
 import {
   ActionState,
-  fromErrorToActionState,
   toActionState,
+  fromErrorToActionState,
 } from '@/components/form/utils/to-action-state';
 import prisma from '@/lib/prisma';
 import { homePath } from '@/paths';
-
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
-
-import { z } from 'zod';
+import { redirect } from 'next/navigation';
+import z from 'zod';
 import { hashPassword } from '../utilis/hash-verfiy';
 import {
   generateSessionToken,
@@ -18,23 +17,20 @@ import {
 } from '../utilis/session';
 import { setSessionTokenCookie } from '../utilis/session-cookie';
 
-import { redirect } from 'next/navigation';
-
-const signUpSchema = z
+const registerSchema = z
   .object({
     username: z
       .string()
       .min(1)
       .max(99)
       .refine(
-        (value) => !value.includes(' '),
-        'username cannot contain spaces'
+        (val) => !val.includes(' '),
+        'Username cannot contain spaces'
       ),
     email: z
       .string()
-      .min(1, { message: 'Is required' })
-      .max(191)
-      .email(),
+      .email()
+      .min(1, { message: 'Email is required' }),
     password: z.string().min(6).max(191),
     confirmPassword: z.string().min(6).max(191),
   })
@@ -53,7 +49,7 @@ export const signUp = async (
   formData: FormData
 ) => {
   try {
-    const { username, email, password } = signUpSchema.parse(
+    const { username, email, password } = registerSchema.parse(
       Object.fromEntries(formData)
     );
 
@@ -77,13 +73,13 @@ export const signUp = async (
       return toActionState(
         'email or username already in use',
         'ERROR',
+
         formData
       );
     }
 
     return fromErrorToActionState(error, formData);
   }
-  console.log('problem');
 
   redirect(homePath());
 };

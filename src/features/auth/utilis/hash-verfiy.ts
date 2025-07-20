@@ -1,17 +1,14 @@
-import { hash, verify } from '@node-rs/argon2';
+import bcrypt from 'bcrypt';
+
+const SALT_ROUNDS = 10;
 
 export const hashPassword = async (password: string) => {
-  return await hash(password, {
-    memoryCost: 19456,
-    timeCost: 2,
-    outputLen: 32,
-    parallelism: 1,
-  });
+  return await bcrypt.hash(password, SALT_ROUNDS);
 };
 
 export const verifyPasswordHash = async (
   passwordHash: string,
   password: string
 ) => {
-  return await verify(passwordHash, password);
+  return await bcrypt.compare(password, passwordHash);
 };

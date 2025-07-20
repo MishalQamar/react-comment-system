@@ -1,22 +1,18 @@
-'use server';
-
 import {
   ActionState,
-  fromErrorToActionState,
   toActionState,
+  fromErrorToActionState,
 } from '@/components/form/utils/to-action-state';
 import prisma from '@/lib/prisma';
 import { homePath } from '@/paths';
-
-import { z } from 'zod';
+import { redirect } from 'next/navigation';
+import z from 'zod';
 import { verifyPasswordHash } from '../utilis/hash-verfiy';
 import {
   generateSessionToken,
   createSession,
 } from '../utilis/session';
 import { setSessionTokenCookie } from '../utilis/session-cookie';
-
-import { redirect } from 'next/navigation';
 
 const signInSchema = z.object({
   email: z
@@ -27,7 +23,7 @@ const signInSchema = z.object({
   password: z.string().min(6).max(191),
 });
 
-export const signIn = async (
+export const logIn = async (
   _actionState: ActionState,
   formData: FormData
 ) => {
@@ -45,6 +41,7 @@ export const signIn = async (
       return toActionState(
         'Incorrect email or password',
         'ERROR',
+
         formData
       );
     }
@@ -58,6 +55,7 @@ export const signIn = async (
       return toActionState(
         'Incorrect email or password',
         'ERROR',
+
         formData
       );
     }
