@@ -9,12 +9,13 @@ import prisma from '@/lib/prisma';
 import { homePath } from '@/paths';
 import { redirect } from 'next/navigation';
 import z from 'zod';
-import { verifyPasswordHash } from '../utilis/hash-verfiy';
+
 import {
   generateSessionToken,
   createSession,
 } from '../utilis/session';
 import { setSessionTokenCookie } from '../utilis/session-cookie';
+import { verifyPasswordHash } from '../utilis/hash-verfiy';
 
 const signInSchema = z.object({
   email: z
@@ -40,12 +41,7 @@ export const signIn = async (
       },
     });
     if (!user) {
-      return toActionState(
-        'Incorrect email or password',
-        'ERROR',
-
-        formData
-      );
+      return toActionState('Incorrect email or password', 'ERROR');
     }
 
     const validPassword = await verifyPasswordHash(
@@ -54,12 +50,7 @@ export const signIn = async (
     );
 
     if (!validPassword) {
-      return toActionState(
-        'Incorrect email or password',
-        'ERROR',
-
-        formData
-      );
+      return toActionState('Incorrect email or password', 'ERROR');
     }
 
     const token = generateSessionToken();
