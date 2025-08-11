@@ -1,36 +1,110 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Polymorphic Comment System
 
-## Getting Started
+A production-ready, drop-in comment system built with Next.js 14, React Server Components, and Prisma. This system supports polymorphic relationships, allowing comments to be attached to any entity type in your application.
 
-First, run the development server:
+## 🚀 Live Demo
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- [Article Comments Demo](/article)
+- [Episode Comments Demo](/episode)
+
+## ✨ Key Features
+
+- **Polymorphic Design**: Attach comments to any entity type (articles, episodes, products, etc.)
+- **Threaded Replies**: Nested comment threads with infinite depth
+- **Real-time Updates**: Built with React Server Components for optimal performance
+- **Drop-in Integration**: Simple two-prop integration (`entity` and `entityId`)
+- **Full CRUD Operations**: Create, read, update, and delete comments
+- **User Authentication**: Secure user management with sessions
+- **Responsive Design**: Works seamlessly on all devices
+
+## 🛠️ Technical Stack
+
+### Frontend
+- **Next.js 14** with App Router
+- **React Server Components** for optimal performance
+- **TypeScript** for type safety
+- **Tailwind CSS** for styling
+- **Lucide Icons** for beautiful icons
+
+### Backend
+- **Prisma ORM** for database operations
+- **PostgreSQL** for data persistence
+- **Server Actions** for form handling
+- **Session Management** for authentication
+
+## 🏗️ Architecture
+
+The system uses a polymorphic relationship design where comments can be attached to any entity:
+
+```typescript
+// Database Schema
+model Comment {
+  id        String        @id @default(cuid())
+  entity    CommentEntity // ARTICLE, EPISODE, etc.
+  entityId  String        // ID of the specific entity
+  userId    String
+  text      String
+  parentId  String?       // For threaded replies
+  // ... other fields
+}
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📦 Installation & Usage
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Clone the repository**
+   ```bash
+   git clone <your-repo>
+   cd next-comment-system
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-## Learn More
+3. **Set up environment variables**
+   ```bash
+   cp .env.example .env.local
+   # Add your DATABASE_URL and other required variables
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+4. **Run database migrations**
+   ```bash
+   npx prisma migrate dev
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+5. **Start the development server**
+   ```bash
+   npm run dev
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🔧 Integration
 
-## Deploy on Vercel
+Adding comments to any page is simple:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```tsx
+import { Comments } from '@/features/comments/components/comments';
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+// In your page component
+<Comments entity="ARTICLE" entityId={article.id} />
+```
+
+The system automatically handles:
+- Loading comments for the specific entity
+- User authentication
+- Creating, editing, and deleting comments
+- Threaded replies
+- Real-time updates
+
+## 🎯 Use Cases
+
+This comment system is perfect for:
+- **Blog platforms** - Article comments
+- **Podcast apps** - Episode discussions
+- **E-commerce sites** - Product reviews
+- **Documentation sites** - Page feedback
+- **Social platforms** - Post interactions
+
+## 📄 License
+
+MIT License - feel free to use this in your own projects.
