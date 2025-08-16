@@ -1,16 +1,11 @@
 # Polymorphic Comment System
 
-A production-ready, drop-in comment system built with Next.js 14, React Server Components, and Prisma. This system supports polymorphic relationships, allowing comments to be attached to any entity type in your application.
-
-## 🚀 Live Demo
-
-- [Article Comments Demo](/article)
-- [Episode Comments Demo](/episode)
+A production-ready, drop-in comment system built with Next.js 15, React Server Components, and Prisma. This system supports polymorphic relationships, allowing comments to be attached to any entity type in your application.
 
 ## ✨ Key Features
 
 - **Polymorphic Design**: Attach comments to any entity type (articles, episodes, products, etc.)
-- **Threaded Replies**: Nested comment threads with infinite depth
+- **Threaded Replies**: Single-level comment threads with efficient loading
 - **Real-time Updates**: Built with React Server Components for optimal performance
 - **Drop-in Integration**: Simple two-prop integration (`entity` and `entityId`)
 - **Full CRUD Operations**: Create, read, update, and delete comments
@@ -20,7 +15,7 @@ A production-ready, drop-in comment system built with Next.js 14, React Server C
 ## 🛠️ Technical Stack
 
 ### Frontend
-- **Next.js 14** with App Router
+- **Next.js 15** with App Router
 - **React Server Components** for optimal performance
 - **TypeScript** for type safety
 - **Tailwind CSS** for styling
@@ -93,7 +88,7 @@ The system automatically handles:
 - Loading comments for the specific entity
 - User authentication
 - Creating, editing, and deleting comments
-- Threaded replies
+- Single-level threaded replies
 - Real-time updates
 
 ## 🎯 Use Cases
